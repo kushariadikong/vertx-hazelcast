@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Pesan {

@@ -1,5 +1,6 @@
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServer;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 
 public class WebVerticle extends AbstractVerticle {
@@ -9,14 +10,14 @@ public class WebVerticle extends AbstractVerticle {
         Router router = Router.router(vertx);
 
         router.get("/:name").handler(request-> {
-            String name = request.pathParam(s: "name");
-            vertx.eventBus().send(s: "hello", JsonObject.mapFrom(new Pesan(name)), reply -> {
+            String name = request.pathParam("name");
+            vertx.eventBus().send("hello", JsonObject.mapFrom(new Pesan(name)), reply -> {
                 if (reply.succeeded()){
-                    Pesan pesan = JsonObject.mapFrom(reply.result().body().mapTo(Pesan.class);
+                    Pesan pesan = JsonObject.mapFrom(reply.result().body()).mapTo(Pesan.class);
                     request.response().end(pesan.getPesan());
                     
                 }else {
-                    request.response().end(s: "Error Getting Result");
+                    request.response().end( "Error Getting Result");
                 }
             });
         });
